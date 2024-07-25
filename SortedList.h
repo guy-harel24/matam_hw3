@@ -5,8 +5,14 @@
 
 namespace mtm {
 
-    template <typename T>
+    typedef int T;
+    typedef T (*updateFunction)(T);
+    //template <typename T>
     class SortedList {
+        SortedList* head;
+        T data;
+        SortedList* next;
+
     public:
         /**
          *
@@ -23,7 +29,7 @@ namespace mtm {
          * 5. class ConstIterator;
          * 6. begin method
          * 7. end method
-         *
+
          * functions:
          * 8. insert - inserts a new element to the list
          * 9. remove - removes an element from the list
@@ -31,6 +37,24 @@ namespace mtm {
          * 11. filter - returns a new list with elements that satisfy a given condition
          * 12. apply - returns a new list with elements that were modified by an operation
          */
+         SortedList();
+         SortedList(const SortedList& sl);
+         SortedList& operator=(const SortedList& sl);
+         ~SortedList();
+
+         class ConstIterator {
+            SortedList* index;
+         };
+         ConstIterator begin();
+         ConstIterator end();
+
+         void insert(const T& new_element);
+         void remove(ConstIterator& it); //maybe ConstIterator - not as reference
+         unsigned int length();
+         template<class Condition>
+         SortedList filter(Condition condition);
+         SortedList apply(const SortedList&, updateFunction f);
+
 
     };
 
