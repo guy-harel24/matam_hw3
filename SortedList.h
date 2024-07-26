@@ -2,18 +2,16 @@
 
 #include <iostream>
 #include <stdexcept>
+#include "Node.h"
 
 namespace mtm {
 
     typedef int T;
-    typedef T (*updateFunction)(T);
     //template <typename T>
-    class SortedList {
-        SortedList* head;
-        T data;
-        SortedList* next;
 
+    class SortedList {
     public:
+        Node* head;
         /**
          *
          * the class should support the following public interface:
@@ -37,45 +35,82 @@ namespace mtm {
          * 11. filter - returns a new list with elements that satisfy a given condition
          * 12. apply - returns a new list with elements that were modified by an operation
          */
-         SortedList();
-         SortedList(const SortedList& sl);
-         SortedList& operator=(const SortedList& sl);
-         ~SortedList();
+        SortedList(): head(nullptr){};
 
-         class ConstIterator {
-            SortedList* index;
-         };
-         ConstIterator begin();
-         ConstIterator end();
+        SortedList(const SortedList &sl);
 
-         void insert(const T& new_element);
-         void remove(ConstIterator& it); //maybe ConstIterator - not as reference
-         unsigned int length();
-         template<class Condition>
-         SortedList filter(Condition condition);
-         SortedList apply(const SortedList&, updateFunction f);
+        SortedList &operator=(const SortedList &sl);
+
+        ~SortedList();
+
+        class ConstIterator {
+            SortedList *sl;
+        public:
+            ConstIterator(SortedList* sl);
+
+            ConstIterator(const ConstIterator &it);
+
+            ConstIterator &operator=(const ConstIterator &it);
+
+            ~ConstIterator();
+
+            T &operator*() const;
+
+            ConstIterator &operator++();
+
+            bool operator!=(const ConstIterator &it) const;
+        };
+
+        ConstIterator begin();
+
+        ConstIterator end();
+
+        void insert(const T &new_element);
+
+        void remove(ConstIterator &it); //maybe ConstIterator - not as reference
+        unsigned int length();
+
+        template<class Condition>
+        SortedList filter(Condition condition);
+        template<class UpdateFunction>
+        SortedList apply(const SortedList &, UpdateFunction f);
 
 
     };
 
-    template <class T>
-    class SortedList<T>::ConstIterator {
-    /**
-     * the class should support the following public interface:
-     * if needed, use =defualt / =delete
-     *
-     * constructors and destructor:
-     * 1. a ctor(or ctors) your implementation needs
-     * 2. copy constructor
-     * 3. operator= - assignment operator
-     * 4. ~ConstIterator() - destructor
-     *
-     * operators:
-     * 5. operator* - returns the element the iterator points to
-     * 6. operator++ - advances the iterator to the next element
-     * 7. operator!= - returns true if the iterator points to a different element
-     *
-     */
+/**
+    //template <class T>
+    class SortedList::ConstIterator {
+
+         * the class should support the following public interface:
+         * if needed, use =defualt / =delete
+         *
+         * constructors and destructor:
+         * 1. a ctor(or ctors) your implementation needs
+         * 2. copy constructor
+         * 3. operator= - assignment operator
+         * 4. ~ConstIterator() - destructor
+         *
+         * operators:
+         * 5. operator* - returns the element the iterator points to
+         * 6. operator++ - advances the iterator to the next element
+         * 7. operator!= - returns true if the iterator points to a different element
+         *
+
+        ConstIterator(*SortedList sl);
+
+        ConstIterator(const ConstIterator &it);
+
+        ConstIterator &operator=(const ConstIterator &it);
+
+        ~ConstIterator();
+
+        T &operator*() const;
+
+        ConstIterator &operator++();
+
+        bool operator!=(const ConstIterator &it) const;
     };
+        */
 }
 
