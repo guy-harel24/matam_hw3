@@ -11,7 +11,7 @@ namespace mtm {
     template<typename T>
     class SortedList {
     public:
-        Node *head;
+        Node<T> *head;
 
         /**
          *
@@ -45,10 +45,10 @@ namespace mtm {
         ~SortedList();
 
         class ConstIterator {
-            Node *current_node;
+            Node<T> *current_node;
 
         public:
-            explicit ConstIterator(Node *current_node);
+            explicit ConstIterator(Node<T> *current_node);
 
             ConstIterator(const ConstIterator &it);
 
@@ -69,7 +69,7 @@ namespace mtm {
 
         void insert(const T &new_element);
 
-        void remove(ConstIterator &it); //maybe ConstIterator - not as reference
+        void remove(const ConstIterator &it) const;
 
         unsigned int length();
 
@@ -90,16 +90,16 @@ namespace mtm {
     SortedList<T>::SortedList(const SortedList &sl) : head(nullptr) {
         if (sl.head != nullptr) {
             try {
-                head = new Node;
+                head = new Node<T>;
             } catch (const std::bad_alloc &) {
                 throw;
             }
-            Node *current = head;
-            Node *source = sl.head;
+            Node<T> *current = head;
+            Node<T> *source = sl.head;
             while (source != nullptr) {
                 current->data = source->data;
                 if (source->next != nullptr) {
-                    current->next = new Node;
+                    current->next = new Node<T>;
                 }
                 current = current->next;
                 source = source->next;
@@ -110,7 +110,7 @@ namespace mtm {
     template<typename T>
     SortedList<T>::~SortedList() {
         while (head != nullptr) {
-            Node *tmp = head;
+            Node<T> *tmp = head;
             head = tmp->next;
             delete tmp;
         }
@@ -123,7 +123,7 @@ namespace mtm {
         }
 
         while (head) {
-            Node *tmp = head;
+            Node<T> *tmp = head;
             head = head->next;
             delete tmp;
 
@@ -131,16 +131,16 @@ namespace mtm {
         this->head = nullptr;
         if (sl.head != nullptr) {
             try {
-                head = new Node;
+                head = new Node<T>;
             } catch (const std::bad_alloc &) {
                 throw;
             }
-            Node *current = head;
-            Node *source = sl.head;
+            Node<T> *current = head;
+            Node<T> *source = sl.head;
             while (source != nullptr) {
                 current->data = source->data;
                 if (source->next != nullptr) {
-                    current->next = new Node;
+                    current->next = new Node<T>;
                 }
                 current = current->next;
                 source = source->next;
@@ -151,7 +151,7 @@ namespace mtm {
 
 //ConstIterator Class
     template<typename T>
-    SortedList<T>::ConstIterator::ConstIterator(Node *current_node):
+    SortedList<T>::ConstIterator::ConstIterator(Node<T> *current_node):
             current_node(current_node) {}
 
     template<typename T>
@@ -206,8 +206,9 @@ namespace mtm {
 //member functions
     template<typename T>
     void SortedList<T>::insert(const T &new_element) {
+        Node<T> *new_node;
         try {
-            Node *new_node = new Node;
+            new_node = new Node<T>;
         } catch (const std::bad_alloc &) {
             throw;
         }
@@ -219,7 +220,7 @@ namespace mtm {
             return;
         }
 
-        Node *current = head;
+        Node<T> *current = head;
         while (current->next != nullptr) {
             if (new_element > current->next->data) {
                 break;
@@ -230,18 +231,18 @@ namespace mtm {
     }
 
     template<typename T>
-    void SortedList<T>::remove(ConstIterator &it) {
-        if (!head) { return; }
-        if (head->data == *it) {
-            Node *tmp = head;
-            head = head->next;
+    void SortedList<T>::remove(const ConstIterator &it) const {
+        if (!this->head) { return; }
+        if ((this->head->data) == (*it)) {
+            Node<T> *tmp = this->head;
+            this->head = this->head->next;
             delete tmp;
             return;
         }
-        Node *current = head;
+        Node<T> *current = this->head;
         while (current->next) {
             if (current->next->data == *it) {
-                Node *tmp = current->next;
+                Node<T> *tmp = current->next;
                 current->next = current->next->next;
                 delete tmp;
                 return;
@@ -253,7 +254,7 @@ namespace mtm {
     template<typename T>
     unsigned int SortedList<T>::length() {
         unsigned int count = 0;
-        Node *current = head;
+        Node<T> *current = head;
         while (current) {
             count++;
             current = current->next;
@@ -279,7 +280,7 @@ namespace mtm {
 
     template<typename T>
     SortedList<T> SortedList<T>::apply(T (*operation)(T)) {
-        SortedList<T> results();
+        SortedList<T> results;
         for (SortedList<T>::ConstIterator it = this->begin();
              it < this->end(); ++it) {
             try {

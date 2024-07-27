@@ -16,8 +16,12 @@ private:
     string message;
 public:
     EmployeeNotFound() = default;
-    explicit EmployeeNotFound(const string& str) : message("The employee " + str + " was not found."){};
-    const string& what() { return message; };
+
+    explicit EmployeeNotFound(const string &str) : message("The employee " +
+                                                           str +
+                                                           " was not found.") {};
+
+    const string &what() { return message; };
 };
 
 
@@ -63,7 +67,7 @@ void TaskManager::completeTask(const string &personName) {
     Person employee;
     try {
         employee = lookForEmployee(personName, employeesAmount, employees);
-    } catch (EmployeeNotFound& e) {
+    } catch (EmployeeNotFound &e) {
         cerr << "Error: " << e.what() << endl;
         return;
     }
@@ -73,19 +77,22 @@ void TaskManager::completeTask(const string &personName) {
 
 void TaskManager::bumpPriorityByType(TaskType type, int priority) {
     for (int emp = 0; emp < employeesAmount; ++emp) {
+        SortedList<Task> list;
         try {
-            SortedList<Task> list() = employees[emp].getTasks();
-        } catch (const bad_alloc& a){
+            list = employees[emp].getTasks();
+        } catch (const bad_alloc &a) {
             cerr << "Allocation failed: " << a.what() << endl;
             throw;
         }
-        for (SortedList<Task>::ConstIterator i = list.begin();
-             i < list.end(); ++i) {
-            if (list[i].getType() == type) {
-                Task newTask(list[i].getPriority() + priority, type,
-                             list[i].getDescription());
-                newTask.setId(list[i].getId());
-                list[i] = newTask;
+        for (SortedList<Task>::ConstIterator it = list.begin();
+             it != list.end(); ++it) {
+            if ((*it).getType() == type) {
+                Task newTask((*it).getPriority() + priority, type,
+                             (*it).getDescription());
+                newTask.setId((*it).getId());
+
+                list.remove(it);
+                list.insert(newTask);
             }
         }
     }
@@ -98,26 +105,26 @@ void TaskManager::printAllEmployees() const {
 }
 
 void TaskManager::printAllTasks() const {
-    SortedList<Task> allTasks();
+    SortedList<Task> allTasks;
     for (int emp = 0; emp < employeesAmount; ++emp) {
         fillListWithTasks(allTasks, employees[emp]);
     }
 
     for (SortedList<Task>::ConstIterator i = allTasks.begin();
-         i < allTasks.end(); ++i) {
-        cout << allTasks[i] << endl;
+         i != allTasks.end(); ++i) {
+        cout << *i << endl;
     }
 }
 
 void TaskManager::printTasksByType(TaskType type) const {
-    SortedList<Task> allTasks();
+    SortedList<Task> allTasks;
     for (int emp = 0; emp < employeesAmount; ++emp) {
         fillListWithTasks(allTasks, employees[emp], type);
     }
 
     for (SortedList<Task>::ConstIterator i = allTasks.begin();
-         i < allTasks.end(); ++i) {
-        cout << allTasks[i] << endl;
+         i != allTasks.end(); ++i) {
+        cout << *i << endl;
     }
 }
 
@@ -150,9 +157,9 @@ lookForEmployee(const string &personName, const int employeesAmount,
 void fillListWithTasks(SortedList<Task> &list, const Person &person) {
     SortedList<Task> personTasks = person.getTasks();
     for (SortedList<Task>::ConstIterator i = personTasks.begin();
-         i < personTasks.end(); ++i) {
+         i != personTasks.end(); ++i) {
         try {
-            list.insert(personTasks[i]);
+            list.insert(*i);
         } catch (...) {
             cerr << "Insertion Failed" << endl;
         }
@@ -171,10 +178,10 @@ fillListWithTasks(SortedList<Task> &list, const Person &person,
                   TaskType type) {
     SortedList<Task> personTasks = person.getTasks();
     for (SortedList<Task>::ConstIterator i = personTasks.begin();
-         i < personTasks.end(); ++i) {
-        if (personTasks[i] == type) {
+         i != personTasks.end(); ++i) {
+        if ((*i).getType() == type) {
             try {
-                list.insert(personTasks[i]);
+                list.insert(*i);
             } catch (...) {
                 cerr << "Insertion Failed" << endl;
             }
