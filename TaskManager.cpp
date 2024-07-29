@@ -54,7 +54,7 @@ void TaskManager::assignTask(const string &personName, const Task &task) {
 
         // add a new employ and assign the task
         Person newEmp(personName);
-        SortedList<Task> tasks();
+        SortedList<Task> tasks;
         newEmp.setTasks(tasks);
         newEmp.assignTask(task);
         employees[employeesAmount++] = newEmp;
@@ -76,6 +76,7 @@ void TaskManager::completeTask(const string &personName) {
 }
 
 void TaskManager::bumpPriorityByType(TaskType type, int priority) {
+
     for (int emp = 0; emp < employeesAmount; ++emp) {
         SortedList<Task> list;
         try {

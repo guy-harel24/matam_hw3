@@ -69,7 +69,7 @@ namespace mtm {
 
         void insert(const T &new_element);
 
-        void remove(const ConstIterator &it) const;
+        void remove(ConstIterator &it);
 
         unsigned int length();
 
@@ -231,7 +231,7 @@ namespace mtm {
     }
 
     template<typename T>
-    void SortedList<T>::remove(const ConstIterator &it) const {
+    void SortedList<T>::remove(ConstIterator &it) {
         if (!this->head) { return; }
         if ((this->head->data) == (*it)) {
             Node<T> *tmp = this->head;

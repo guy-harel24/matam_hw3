@@ -10,7 +10,7 @@ public:
     T data;
     Node<T> *next;
 
-    Node<T>() : data(T()), next(nullptr) {};
+    Node<T>() : next(nullptr) {};
 
     explicit Node(const T &t) : data(t), next(nullptr) {};
 
