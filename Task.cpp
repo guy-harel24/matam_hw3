@@ -3,16 +3,12 @@
 
 // Constructor
 Task::Task(int priority, TaskType type, const string &desc)
-        : m_description(desc), m_priority(priority), m_type(type)
-{
+        : m_description(desc), m_priority(priority), m_type(type) {
     // enforce priority range of 0-100
     // 0 is lowest priority, 100 is highest
-    if (m_priority < 0)
-    {
+    if (m_priority < 0) {
         m_priority = 0;
-    }
-    else if (m_priority > 100)
-    {
+    } else if (m_priority > 100) {
         m_priority = 100;
     }
 }
@@ -27,6 +23,7 @@ int Task::getId() const {
 
 void Task::setId(int newId) {
     m_id = newId;
+
 }
 
 TaskType Task::getType() const {
@@ -43,13 +40,14 @@ int Task::getPriority() const {
 
 
 // Overloaded operators
-ostream &operator<<(ostream& os, const Task& task) {
+ostream &operator<<(ostream &os, const Task &task) {
     os << "Task ID: " << task.m_id << ", Priority: " << task.m_priority;
-    os << ", Type: " << taskTypeToString(task.m_type) << ", Description: " << task.m_description;
+    os << ", Type: " << taskTypeToString(task.m_type) << ", Description: "
+       << task.m_description;
     return os;
 }
 
-bool operator>(const Task& lhs, const Task& rhs) {
+bool operator>(const Task &lhs, const Task &rhs) {
     return lhs.m_priority > rhs.m_priority;
 }
 

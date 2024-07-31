@@ -62,7 +62,7 @@ namespace mtm {
 
             const T &operator*() const;
 
-            Node<T> * getNode() const;
+            Node<T> *getNode() const;
 
         };
 
@@ -74,7 +74,7 @@ namespace mtm {
 
         void remove(const ConstIterator &it);
 
-        unsigned int length() const;
+        int length() const;
 
         template<class Condition>
         SortedList filter(Condition condition) const;
@@ -144,7 +144,8 @@ namespace mtm {
             Node<T> *source = sl.head->next;
             while (source != nullptr) {
                 try {
-                    current->next = new Node<T>(source->data); // Use copy constructor of T
+                    current->next = new Node<T>(
+                            source->data); // Use copy constructor of T
                 } catch (const std::bad_alloc &) {
                     // Cleanup in case of exception
                     while (head != nullptr) {
@@ -174,6 +175,7 @@ namespace mtm {
     typename SortedList<T>::ConstIterator &SortedList<T>::ConstIterator::
     operator=(const ConstIterator &it) {
         current_node = it.current_node;
+        return *this;
     }
 
     template<typename T>
@@ -204,7 +206,7 @@ namespace mtm {
     }
 
     template<typename T>
-    Node<T>* SortedList<T>::ConstIterator::getNode() const {
+    Node<T> *SortedList<T>::ConstIterator::getNode() const {
         return current_node;
     }
 
@@ -250,12 +252,18 @@ namespace mtm {
 
     template<typename T>
     void SortedList<T>::remove(const ConstIterator &it) {
+
         if (!this->head) { return; }
         if (head != it.getNode()) {
             Node<T> *current = head;
             while (current->next != it.getNode()) {
                 current = current->next;
             }
+
+            if (current->next == nullptr) {
+                return;
+            }
+
             Node<T> *tmp = current->next;
             current->next = current->next->next;
             delete tmp;
@@ -292,8 +300,8 @@ namespace mtm {
      */
 
     template<typename T>
-    unsigned int SortedList<T>::length() const {
-        unsigned int count = 0;
+    int SortedList<T>::length() const {
+        int count = 0;
         Node<T> *current = head;
         while (current) {
             count++;
@@ -323,12 +331,13 @@ namespace mtm {
     SortedList<T> SortedList<T>::apply(T (*operation)(T)) const {
         SortedList<T> results;
         try {
-            for (ConstIterator it = begin(); it != end(); ++it)
+            for (ConstIterator it = begin(); it != end(); ++it) {
                 results.insert(operation(*it));
-            } catch(...) {
-                std::cerr << "Operation on list element failed" << std::endl;
-                return SortedList<T>();
             }
+        } catch (...) {
+            std::cerr << "Operation on list element failed" << std::endl;
+            return SortedList<T>();
+        }
         return results;
     }
 

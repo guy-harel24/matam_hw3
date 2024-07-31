@@ -4,6 +4,9 @@
 
 #include "TaskManager.h"
 #include "SortedList.h"
+#include "Node.h"
+#include "Person.h"
+#include "Task.h"
 
 
 using namespace std;
@@ -25,24 +28,94 @@ public:
 };
 
 
+
+// Aid functions declarations
+
+/**
+ * @brief Searches for an employee in the array.
+ *
+ * @param personName The name of the person lookup.
+ * @param employees The array of the employees.
+ * @param employeesAmount The amount of current employees.
+ */
+const Person &
+lookForEmployee(const string &personName, const int employeesAmount,
+                const Person *employees) {
+    for (int emp = 0; emp < employeesAmount; ++emp) {
+        if (employees[emp].getName() == personName) {
+            return employees[emp];
+        }
+    }
+
+    throw EmployeeNotFound(personName);
+}
+
+/**
+ * @brief Insert employees tasks to a list by priority.
+ *
+ * @param list SortedList of tasks to be edited.
+ * @param person Person to get task list and add the tasks to list.
+ */
+void fillListWithTasks(SortedList<Task> &list, const Person &person) {
+    SortedList<Task> personTasks;
+    try {
+        personTasks = person.getTasks();
+    } catch (...) {
+        throw std::bad_alloc();
+    }
+
+    for (SortedList<Task>::ConstIterator i = personTasks.begin();
+         i != personTasks.end(); ++i) {
+        try {
+            list.insert(*i);
+        } catch (...) {
+            cerr << "Insertion Failed" << endl;
+        }
+    }
+}
+
+/**
+ * @brief Insert specific type employees tasks to a list by priority.
+ *
+ * @param list SortedList of tasks to be edited.
+ * @param person Person to get task list and add the tasks to list.
+ * @param type TaskType to look for.
+ */
+void
+fillListWithTasks(SortedList<Task> &list, const Person &person,
+                  TaskType &type) {
+    SortedList<Task> personTasks;
+    try {
+        personTasks = person.getTasks();
+    } catch (const bad_alloc &) {
+        throw;
+    }
+
+    for (SortedList<Task>::ConstIterator i = personTasks.begin();
+         i != personTasks.end(); ++i) {
+        if ((*i).getType() == type) {
+            try {
+                list.insert(*i);
+            } catch (...) {
+                cerr << "Insertion Failed" << endl;
+            }
+        }
+    }
+}
+
 // Default C'tor
 TaskManager::TaskManager() {
     employeesAmount = 0;
+    currentTaskNum = 0;
     employees = new Person[MAX_PERSONS];
 }
-
-// Aid functions declarations
-void fillListWithTasks(const SortedList<Task> &list, const Person &person);
-void
-fillListWithTasks(const SortedList<Task> &list, const Person &person,
-                  TaskType type);
-const Person &lookForEmployee(const string &personName, int employeesAmount,
-                              const Person *employees);
 
 
 // Assigns task to employee
 void TaskManager::assignTask(const string &personName, const Task &task) {
     Person employee;
+    Task taskCopy(task.getPriority(), task.getType(), task.getDescription());
+    taskCopy.setId(this->currentTaskNum++);
 
     try {
         employee = lookForEmployee(personName, employeesAmount, employees);
@@ -56,11 +129,11 @@ void TaskManager::assignTask(const string &personName, const Task &task) {
         Person newEmp(personName);
         SortedList<Task> tasks;
         newEmp.setTasks(tasks);
-        newEmp.assignTask(task);
+        newEmp.assignTask(taskCopy);
         employees[employeesAmount++] = newEmp;
     }
 
-    employee.assignTask(task);
+    employee.assignTask(taskCopy);
 }
 
 void TaskManager::completeTask(const string &personName) {
@@ -126,66 +199,5 @@ void TaskManager::printTasksByType(TaskType type) const {
     for (SortedList<Task>::ConstIterator i = allTasks.begin();
          i != allTasks.end(); ++i) {
         cout << *i << endl;
-    }
-}
-
-
-/**
- * @brief Searches for an employee in the array.
- *
- * @param personName The name of the person lookup.
- * @param employees The array of the employees.
- * @param employeesAmount The amount of current employees.
- */
-const Person &
-lookForEmployee(const string &personName, const int employeesAmount,
-                const Person *employees) {
-    for (int emp = 0; emp < employeesAmount; ++emp) {
-        if (employees[emp].getName() == personName) {
-            return employees[emp];
-        }
-    }
-
-    throw EmployeeNotFound(personName);
-}
-
-/**
- * @brief Insert employees tasks to a list by priority.
- *
- * @param list SortedList of tasks to be edited.
- * @param person Person to get task list and add the tasks to list.
- */
-void fillListWithTasks(SortedList<Task> &list, const Person &person) {
-    SortedList<Task> personTasks = person.getTasks();
-    for (SortedList<Task>::ConstIterator i = personTasks.begin();
-         i != personTasks.end(); ++i) {
-        try {
-            list.insert(*i);
-        } catch (...) {
-            cerr << "Insertion Failed" << endl;
-        }
-    }
-}
-
-/**
- * @brief Insert specific type employees tasks to a list by priority.
- *
- * @param list SortedList of tasks to be edited.
- * @param person Person to get task list and add the tasks to list.
- * @param type TaskType to look for.
- */
-void
-fillListWithTasks(SortedList<Task> &list, const Person &person,
-                  TaskType type) {
-    SortedList<Task> personTasks = person.getTasks();
-    for (SortedList<Task>::ConstIterator i = personTasks.begin();
-         i != personTasks.end(); ++i) {
-        if ((*i).getType() == type) {
-            try {
-                list.insert(*i);
-            } catch (...) {
-                cerr << "Insertion Failed" << endl;
-            }
-        }
     }
 }

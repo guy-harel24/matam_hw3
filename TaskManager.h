@@ -18,7 +18,8 @@ private:
     static const int MAX_PERSONS = 10;
     Person *employees;
     int employeesAmount;
-
+    int currentTaskNum;
+    
     // Note - Additional private fields and methods can be added if needed.
 
 public:
