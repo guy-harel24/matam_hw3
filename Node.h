@@ -18,7 +18,5 @@ public:
         next = other;
     }
 
-    //~Node<T>() {
-    //    delete next;
-    //}
+    ~Node<T>() = default;
 };
