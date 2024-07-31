@@ -79,9 +79,6 @@ namespace mtm {
         template<class Condition>
         SortedList filter(Condition condition) const;
 
-        //template<class UpdateFunction>
-        //SortedList apply(const SortedList &, UpdateFunction f);
-
         SortedList apply(T (*operation)(T)) const;
 
     };
@@ -91,33 +88,9 @@ namespace mtm {
 
     template<typename T>
     SortedList<T>::SortedList(const SortedList &sl) : head(nullptr) {
-        if (sl.head != nullptr) {
-            Node<T> *source = sl.head;
-            try {
-                // Allocate the first node
-                head = new Node<T>(source->data);
-                Node<T> *current = head;
-                source = source->next;
-
-                // Copy the remaining nodes
-                while (source != nullptr) {
-                    current->next = new Node<T>(source->data);
-                    current = current->next;
-                    source = source->next;
-                }
-            } catch (...) {
-                // Clean up in case of an exception
-                Node<T> *tmp = head;
-                while (tmp != nullptr) {
-                    Node<T> *next = tmp->next;
-                    delete tmp;
-                    tmp = next;
-                }
-                head = nullptr; // Set head to nullptr to indicate failure
-                throw; // Rethrow the exception
-            }
-        }
+        *this = sl;
     }
+
     template<typename T>
     SortedList<T>::~SortedList() {
         while (head != nullptr) {
@@ -126,38 +99,6 @@ namespace mtm {
             delete tmp;
         }
     }
-    /*
-    template <typename T>
-    void copyAndAllocate(SortedList<T> &dest, const SortedList<T> &src)
-    {
-        if (src.head != nullptr) {
-            Node<T> *source = src.head;
-            try {
-                // Allocate the first node
-                dest.head = new Node<T>(source->data);
-                Node<T> *current = dest.head;
-                source = source->next;
-
-                // Copy the remaining nodes
-                while (source != nullptr) {
-                    current->next = new Node<T>(source->data);
-                    current = current->next;
-                    source = source->next;
-                }
-            } catch (...) {
-                // Clean up in case of an exception
-                Node<T> *tmp = dest.head;
-                while (tmp != nullptr) {
-                    Node<T> *next = tmp->next;
-                    delete tmp;
-                    tmp = next;
-                }
-                dest.head = nullptr; // Set head to nullptr to indicate failure
-                throw; // Rethrow the exception
-            }
-        }
-    }
-*/
 
     template<typename T>
     SortedList<T> &SortedList<T>::operator=(const SortedList &sl) {
@@ -175,7 +116,7 @@ namespace mtm {
         if (sl.head != nullptr) {
             Node<T> *source = sl.head;
             try {
-                // Allocate the first node
+                // Allocate head
                 head = new Node<T>(source->data);
                 Node<T> *current = head;
                 source = source->next;
@@ -187,15 +128,15 @@ namespace mtm {
                     source = source->next;
                 }
             } catch (...) {
-                // Clean up in case of an exception
+                // Clean up in case of exception
                 Node<T> *tmp = head;
                 while (tmp != nullptr) {
                     Node<T> *next = tmp->next;
                     delete tmp;
                     tmp = next;
                 }
-                head = nullptr; // Set head to nullptr to indicate failure
-                throw; // Rethrow the exception
+                head = nullptr;
+                throw;
             }
         }
         return *this;
