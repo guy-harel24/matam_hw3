@@ -38,9 +38,9 @@ public:
  * @param employees The array of the employees.
  * @param employeesAmount The amount of current employees.
  */
-const Person &
+Person &
 lookForEmployee(const string &personName, const int employeesAmount,
-                const Person *employees) {
+                Person *employees) {
     for (int emp = 0; emp < employeesAmount; ++emp) {
         if (employees[emp].getName() == personName) {
             return employees[emp];
@@ -116,16 +116,18 @@ TaskManager::~TaskManager() {
 
 // Assigns task to employee
 void TaskManager::assignTask(const string &personName, const Task &task) {
-    Person employee;
     Task taskCopy(task.getPriority(), task.getType(), task.getDescription());
     taskCopy.setId(this->currentTaskNum++);
 
     try {
-        employee = lookForEmployee(personName, employeesAmount, employees);
+        Person &employee = lookForEmployee(personName, employeesAmount,
+                                           employees);
+        employee.assignTask(taskCopy);
     } catch (EmployeeNotFound &) {
         if (employeesAmount == MAX_PERSONS) {
             throw runtime_error("Surpassed maximum employees amount. (" +
                                 to_string(MAX_PERSONS) + ")");
+
         }
 
         // add a new employ and assign the task
@@ -134,31 +136,28 @@ void TaskManager::assignTask(const string &personName, const Task &task) {
         newEmp.setTasks(tasks);
         newEmp.assignTask(taskCopy);
         employees[employeesAmount++] = newEmp;
+        return;
     }
-
-    employee.assignTask(taskCopy);
 }
 
 void TaskManager::completeTask(const string &personName) {
-    Person employee;
     try {
-        employee = lookForEmployee(personName, employeesAmount, employees);
+        Person &employee = lookForEmployee(personName, employeesAmount,
+                                           employees);
+        employee.completeTask();
     } catch (EmployeeNotFound &e) {
         cerr << "Error: " << e.what() << endl;
         return;
     }
 
-    employee.completeTask();
 }
 
 void TaskManager::bumpPriorityByType(TaskType type, int priority) {
-
     for (int emp = 0; emp < employeesAmount; ++emp) {
         SortedList<Task> list;
         try {
             list = employees[emp].getTasks();
         } catch (const bad_alloc &a) {
-            cerr << "Allocation failed: " << a.what() << endl;
             throw;
         }
         for (SortedList<Task>::ConstIterator it = list.begin();
@@ -167,12 +166,17 @@ void TaskManager::bumpPriorityByType(TaskType type, int priority) {
                 Task newTask((*it).getPriority() + priority, type,
                              (*it).getDescription());
                 newTask.setId((*it).getId());
-
                 list.remove(it);
-                list.insert(newTask);
+                try {
+                    list.insert(newTask);
+                } catch (const bad_alloc &) {
+                    throw;
+                }
             }
         }
+        employees[emp].setTasks(list);
     }
+
 }
 
 void TaskManager::printAllEmployees() const {
