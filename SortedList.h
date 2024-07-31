@@ -92,24 +92,32 @@ namespace mtm {
     template<typename T>
     SortedList<T>::SortedList(const SortedList &sl) : head(nullptr) {
         if (sl.head != nullptr) {
-            try {
-                head = new Node<T>;
-            } catch (const std::bad_alloc &) {
-                throw;
-            }
-            Node<T> *current = head;
             Node<T> *source = sl.head;
-            while (source != nullptr) {
-                current->data = source->data;
-                if (source->next != nullptr) {
-                    current->next = new Node<T>;
-                }
-                current = current->next;
+            try {
+                // Allocate the first node
+                head = new Node<T>(source->data);
+                Node<T> *current = head;
                 source = source->next;
+
+                // Copy the remaining nodes
+                while (source != nullptr) {
+                    current->next = new Node<T>(source->data);
+                    current = current->next;
+                    source = source->next;
+                }
+            } catch (...) {
+                // Clean up in case of an exception
+                Node<T> *tmp = head;
+                while (tmp != nullptr) {
+                    Node<T> *next = tmp->next;
+                    delete tmp;
+                    tmp = next;
+                }
+                head = nullptr; // Set head to nullptr to indicate failure
+                throw; // Rethrow the exception
             }
         }
     }
-
     template<typename T>
     SortedList<T>::~SortedList() {
         while (head != nullptr) {
@@ -118,9 +126,42 @@ namespace mtm {
             delete tmp;
         }
     }
+    /*
+    template <typename T>
+    void copyAndAllocate(SortedList<T> &dest, const SortedList<T> &src)
+    {
+        if (src.head != nullptr) {
+            Node<T> *source = src.head;
+            try {
+                // Allocate the first node
+                dest.head = new Node<T>(source->data);
+                Node<T> *current = dest.head;
+                source = source->next;
+
+                // Copy the remaining nodes
+                while (source != nullptr) {
+                    current->next = new Node<T>(source->data);
+                    current = current->next;
+                    source = source->next;
+                }
+            } catch (...) {
+                // Clean up in case of an exception
+                Node<T> *tmp = dest.head;
+                while (tmp != nullptr) {
+                    Node<T> *next = tmp->next;
+                    delete tmp;
+                    tmp = next;
+                }
+                dest.head = nullptr; // Set head to nullptr to indicate failure
+                throw; // Rethrow the exception
+            }
+        }
+    }
+*/
 
     template<typename T>
     SortedList<T> &SortedList<T>::operator=(const SortedList &sl) {
+
         if (this == &sl) {  // Self-assignment check
             return *this;
         }
@@ -131,32 +172,30 @@ namespace mtm {
             head = head->next;
             delete tmp;
         }
-
-        head = nullptr;
-
         if (sl.head != nullptr) {
+            Node<T> *source = sl.head;
             try {
-                head = new Node<T>(sl.head->data); // Use copy constructor of T
-            } catch (const std::bad_alloc &) {
-                throw;
-            }
-            Node<T> *current = head;
-            Node<T> *source = sl.head->next;
-            while (source != nullptr) {
-                try {
-                    current->next = new Node<T>(
-                            source->data); // Use copy constructor of T
-                } catch (const std::bad_alloc &) {
-                    // Cleanup in case of exception
-                    while (head != nullptr) {
-                        Node<T> *tmp = head;
-                        head = head->next;
-                        delete tmp;
-                    }
-                    throw;
-                }
-                current = current->next;
+                // Allocate the first node
+                head = new Node<T>(source->data);
+                Node<T> *current = head;
                 source = source->next;
+
+                // Copy the remaining nodes
+                while (source != nullptr) {
+                    current->next = new Node<T>(source->data);
+                    current = current->next;
+                    source = source->next;
+                }
+            } catch (...) {
+                // Clean up in case of an exception
+                Node<T> *tmp = head;
+                while (tmp != nullptr) {
+                    Node<T> *next = tmp->next;
+                    delete tmp;
+                    tmp = next;
+                }
+                head = nullptr; // Set head to nullptr to indicate failure
+                throw; // Rethrow the exception
             }
         }
         return *this;
