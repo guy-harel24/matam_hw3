@@ -10,15 +10,15 @@ public:
     T data;
     Node<T> *next;
 
-    Node<T>() : next(nullptr) {};
+    Node<T>() : data(), next(nullptr) {};
 
     explicit Node(const T &t) : data(t), next(nullptr) {};
 
     Node<T>(const T &t, Node<T> *other) : data(t) {
-        next = new Node<T>(other->data);
+        next = other;
     }
 
-    ~Node<T>() {
-        delete next;
-    }
+    //~Node<T>() {
+    //    delete next;
+    //}
 };

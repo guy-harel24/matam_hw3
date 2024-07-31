@@ -42,6 +42,7 @@ private:
     TaskType m_type;
 
 public:
+    Task();
     /**
      * @brief Constructor to create a Task object.
      *
@@ -112,4 +113,6 @@ public:
      * @return false If the priority of lhs is not greater than that of rhs.
      */
     friend bool operator>(const Task& lhs, const Task& rhs);
+
+
 };

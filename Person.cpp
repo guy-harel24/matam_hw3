@@ -24,6 +24,7 @@ void Person::assignTask(const Task& task) {
 }
 
 
+
 int Person::completeTask() {
     if (m_tasks.length() == 0) {
         throw std::runtime_error("No tasks assigned to this person.");
