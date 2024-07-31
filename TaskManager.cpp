@@ -110,6 +110,9 @@ TaskManager::TaskManager() {
     employees = new Person[MAX_PERSONS];
 }
 
+TaskManager::~TaskManager() {
+    delete[] this->employees;
+}
 
 // Assigns task to employee
 void TaskManager::assignTask(const string &personName, const Task &task) {

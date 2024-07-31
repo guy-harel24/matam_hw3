@@ -188,10 +188,10 @@ namespace mtm {
     SortedList<T>::ConstIterator::operator++() {
         if (current_node) {
             current_node = current_node->next;
-            return *this;
         } else {
             throw std::out_of_range("Crossed end of the list");
         }
+        return *this;
     }
 
     template<typename T>
@@ -275,29 +275,6 @@ namespace mtm {
             return;
         }
     }
-
-    /*
-     template<typename T>
-    void SortedList<T>::remove(const ConstIterator &it) {
-        if (!this->head) { return; }
-        if (head->data == (*it)) {
-            Node<T> *tmp = head;
-            head = head->next;
-            delete tmp;
-            return;
-        }
-        Node<T> *current = head;
-        while (current->next) {
-            if (current->next->data == *it) {
-                Node<T> *tmp = current->next;
-                current->next = current->next->next;
-                delete tmp;
-                return;
-            }
-            current = current->next;
-        }
-    }
-     */
 
     template<typename T>
     int SortedList<T>::length() const {

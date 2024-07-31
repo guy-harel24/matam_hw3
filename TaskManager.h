@@ -40,7 +40,10 @@ public:
      * @brief Deleted copy assignment operator to prevent assignment of TaskManager objects.
      */
     TaskManager &operator=(const TaskManager &other) = delete;
-
+    /**
+     * @brief Destructor for TaskMananger
+     */
+    ~TaskManager();
     /**
      * @brief Assigns a task to a person.
      *
