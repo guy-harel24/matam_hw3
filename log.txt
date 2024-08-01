@@ -1,0 +1,242 @@
+* commit 698cea4e88cfdcee5b4b039d18822d4d13bb60ad
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Thu Aug 1 17:44:18 2024 +0300
+| 
+|     fixing memory error in bumpPriority
+| 
+|  SortedList.h    |  6 ++++--
+|  TaskManager.cpp | 25 ++++++++++++++++---------
+|  2 files changed, 20 insertions(+), 11 deletions(-)
+| 
+* commit fbb0ac2e1befb6d1115521f72d3ad5a7f9306eea
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Wed Jul 31 21:54:31 2024 +0300
+| 
+|     applying cosmetic changes
+| 
+|  SortedList.h | 71 +++++-----------------------------------------------------
+|  1 file changed, 6 insertions(+), 65 deletions(-)
+| 
+* commit 976800aead63c98c1ddd5546bee5d4f9b55dbba0
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Wed Jul 31 19:29:12 2024 +0300
+| 
+|     fixing SortedList.h copy c'tor
+| 
+|  SortedList.h | 111 ++++++++++++++++++++++++++++++++++++++-------------------
+|  main.cpp     |   1 +
+|  2 files changed, 76 insertions(+), 36 deletions(-)
+| 
+* commit 255c2cc4423c19752abf25ff167e63d7dcb28a5c
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Wed Jul 31 15:47:57 2024 +0300
+| 
+|     Adding dtor for Node.h
+| 
+|  Node.h | 4 +---
+|  1 file changed, 1 insertion(+), 3 deletions(-)
+| 
+* commit 2cfb7ef5edc1781c9dd0d631a8ec1918c89d358e
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Wed Jul 31 15:00:47 2024 +0300
+| 
+|     Fixing bugs in TaskManager.cpp: fixing references in assignTask, bumpPriorityByType and taskComplete
+| 
+|  TaskManager.cpp | 30 +++++++++++++++++-------------
+|  1 file changed, 17 insertions(+), 13 deletions(-)
+| 
+* commit ddd266a5365a7f7bf5c8be92e8300fb72e8b96eb
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Wed Jul 31 14:57:49 2024 +0300
+| 
+|     adding destructor to TaskManager
+| 
+|  SortedList.h    | 25 +------------------------
+|  TaskManager.cpp |  3 +++
+|  TaskManager.h   |  5 ++++-
+|  3 files changed, 8 insertions(+), 25 deletions(-)
+| 
+* commit c82a530d2857a9b5dec0fc506fbff2880010980e
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Wed Jul 31 12:53:33 2024 +0300
+| 
+|     Fixing bugs: applying new method to set task id in taskmanager and fixing memory leaks
+| 
+|  SortedList.h    |  29 ++++++----
+|  Task.cpp        |  18 +++----
+|  TaskManager.cpp | 154 +++++++++++++++++++++++++++++-------------------------
+|  TaskManager.h   |   3 +-
+|  4 files changed, 112 insertions(+), 92 deletions(-)
+| 
+* commit 9b56a306cabf0c9beb8494256004058fef5a3921
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Wed Jul 31 10:56:11 2024 +0300
+| 
+|     fixing bugs on Node.h, SortedLisl.h + person and task classes
+| 
+|  Node.h       |  10 +++---
+|  Person.cpp   |   1 +
+|  SortedList.h | 109 ++++++++++++++++++++++++++++++++++++++-------------------
+|  Task.cpp     |  52 ++++++++++++++-------------
+|  Task.h       |   3 ++
+|  5 files changed, 110 insertions(+), 65 deletions(-)
+| 
+* commit 3f8eadb6f48d4ab816bba479404686d37795a8bc
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Mon Jul 29 16:55:16 2024 +0300
+| 
+|     Making some changes so both versions would sync.
+| 
+|  Node.h          | 2 +-
+|  SortedList.h    | 4 ++--
+|  TaskManager.cpp | 3 ++-
+|  3 files changed, 5 insertions(+), 4 deletions(-)
+| 
+* commit 8f47ac3ced2d71da80386e8f75b3ad7090e241b0
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Sat Jul 27 20:45:52 2024 +0300
+| 
+|     Fixing bugs in TaskManager
+| 
+|  Node.h          | 25 +++++++++++++++----------
+|  SortedList.h    | 53 +++++++++++++++++++++++++++--------------------------
+|  TaskManager.cpp | 53 ++++++++++++++++++++++++++++++-----------------------
+|  3 files changed, 72 insertions(+), 59 deletions(-)
+|   
+*   commit 83c3cf3c10f6dbfb85f9c57bc67e46a2d5f55fd5
+|\  Merge: fc96724 b15f515
+| | Author: Guy Harel <guy.harel24@gmail.com>
+| | Date:   Sat Jul 27 00:47:54 2024 +0300
+| | 
+| |     Merge remote-tracking branch 'origin/main'
+| | 
+| * commit b15f515df68b32b078c05e7d0d9fb89b6bc4a2a6
+| | Author: Eden Avidan <eden.avidan2000@gmail.com>
+| | Date:   Sat Jul 27 00:33:21 2024 +0300
+| | 
+| |     Implementing 'apply' in SortedList.h, adding explicit exceptions and trys to SortedList.h, TaskManager.cpp
+| | 
+| |  SortedList.h    | 146 +++++++++++++++++++++++++++++++---------------------
+| |  TaskManager.cpp |  90 +++++++++++++++++++++-----------
+| |  2 files changed, 149 insertions(+), 87 deletions(-)
+| | 
+* | commit fc96724ce6e164d6e89c9587fc889e8616b0f46b
+|/  Author: Guy Harel <guy.harel24@gmail.com>
+|   Date:   Sat Jul 27 00:47:37 2024 +0300
+|   
+|       adding Node.h
+|   
+|    Node.h | 19 +++++++++++++++++++
+|    1 file changed, 19 insertions(+)
+| 
+* commit b9084232daeca7f54ac542e9338d3c0b64de55d1
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Fri Jul 26 22:46:00 2024 +0300
+| 
+|     finishing all implementations except apply on SortedList.h
+| 
+|  SortedList.h | 205 +++++++++++++++++++++++++++++++++++++++++++--------------
+|  1 file changed, 156 insertions(+), 49 deletions(-)
+|   
+*   commit a40d5579c7b62d3ef2cf091bb0cfd4688e44cc02
+|\  Merge: d29515a 29fca08
+| | Author: Guy Harel <guy.harel24@gmail.com>
+| | Date:   Fri Jul 26 20:38:11 2024 +0300
+| | 
+| |     Merge remote-tracking branch 'origin/main'
+| |   
+| *   commit 29fca086c393064cf493fce47022b76497217dca
+| |\  Merge: 589e425 91f4364
+| | | Author: Eden Avidan <eden.avidan2000@gmail.com>
+| | | Date:   Fri Jul 26 20:04:22 2024 +0300
+| | | 
+| | |     Merge branch 'TaskM_1' with main - TaskM_1 added
+| | |     implementations for TaskManager cpp and h, while changes in
+| | |     other classes were made in main
+| | | 
+| | * commit 91f43642cfd427fccf0ff8ba52a5d751519921dd
+| | | Author: Eden Avidan <eden.avidan2000@gmail.com>
+| | | Date:   Fri Jul 26 17:46:17 2024 +0300
+| | | 
+| | |     Adding full implementation of TaskManager .h and .cpp
+| | | 
+| | |  TaskManager.cpp | 151 ++++++++++++++++++++++++++++++++++++++++++++++++++
+| | |  TaskManager.h   |   7 +++
+| | |  2 files changed, 158 insertions(+)
+| | | 
+* | | commit d29515ae33706e9fc918223ea93cde3cac04a3e1
+|/ /  Author: Guy Harel <guy.harel24@gmail.com>
+| |   Date:   Fri Jul 26 20:37:44 2024 +0300
+| |   
+| |       finishing insert implementation on SortedList.h
+| |   
+| |    SortedList.cpp | 97 ----------------------------------------------------
+| |    SortedList.h   | 90 +++++++++++++++++++++++++++++++++++++++++++++---
+| |    2 files changed, 85 insertions(+), 102 deletions(-)
+| | 
+* | commit 589e425d1244d5df9ecf12ffb98bb37a4a8df5c6
+|/  Author: Guy Harel <guy.harel24@gmail.com>
+|   Date:   Fri Jul 26 19:07:59 2024 +0300
+|   
+|       finishing big three + operator = implementations on SortedList.h
+|   
+|    SortedList.cpp |  97 ++++++++++++++++++++++++++++++++++++++++++++++
+|    SortedList.h   | 111 +++++++++++++++++++++++++++++++++++------------------
+|    2 files changed, 170 insertions(+), 38 deletions(-)
+| 
+* commit c131b0a374aa581d1178c538c37e9741eb8159c5
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Thu Jul 25 23:21:56 2024 +0300
+| 
+|     finishing declarations on SortedList.h (not including ConstIterator)
+| 
+|  SortedList.h | 28 ++++++++++++++++++++++++++--
+|  1 file changed, 26 insertions(+), 2 deletions(-)
+|   
+*   commit ec7b58bf949506e848d5454dc5943b463cded699
+|\  Merge: b7c6313 ede83ba
+| | Author: Guy Harel <guy.harel24@gmail.com>
+| | Date:   Thu Jul 25 20:21:26 2024 +0300
+| | 
+| |     fixing bugs
+| | 
+| * commit ede83ba7ec0aa01a71dae485a09f8fce1296f65d
+|   Author: Guy Harel <guy.harel24@gmail.com>
+|   Date:   Thu Jul 25 20:08:20 2024 +0300
+|   
+|       first commit
+|   
+|    README.md | 1 +
+|    1 file changed, 1 insertion(+)
+| 
+* commit b7c6313c06768e644799f20fb254f45224631990
+| Author: Guy Harel <guy.harel24@gmail.com>
+| Date:   Thu Jul 25 20:15:21 2024 +0300
+| 
+|     statring hw3
+| 
+|  .gitignore           |   3 +
+|  Person.cpp           |  51 +++++
+|  Person.h             |  79 ++++++++
+|  README.md            |   8 +-
+|  SortedList.h         |  57 ++++++
+|  Task.cpp             |  83 ++++++++
+|  Task.h               | 115 +++++++++++
+|  TaskManager.h        |  75 +++++++
+|  main.cpp             | 531 +++++++++++++++++++++++++++++++++++++++++++++++++
+|  tests/test1.expected |   3 +
+|  tests/test2.expected |   3 +
+|  tests/test3.expected |  30 +++
+|  tests/test4.expected |   3 +
+|  tests/test5.expected |   3 +
+|  tests/test6.expected |  15 ++
+|  15 files changed, 1058 insertions(+), 1 deletion(-)
+| 
+* commit 12835e3e9d71cfa0959b400189094daecb319b3f
+  Author: Guy Harel <guy.harel24@gmail.com>
+  Date:   Thu Jul 25 20:10:46 2024 +0300
+  
+      first commit
+  
+   README.md | 1 +
+   1 file changed, 1 insertion(+)

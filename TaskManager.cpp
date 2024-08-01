@@ -4,7 +4,6 @@
 
 #include "TaskManager.h"
 #include "SortedList.h"
-#include "Node.h"
 #include "Person.h"
 #include "Task.h"
 
@@ -156,16 +155,17 @@ void TaskManager::completeTask(const string &personName) {
 void TaskManager::bumpPriorityByType(TaskType type, int priority) {
     for (int emp = 0; emp < employeesAmount; ++emp) {
         SortedList<Task> updated_list;
-        updated_list = employees[emp].getTasks().apply([type, priority](const Task & task) -> Task{
-            int new_priority = task.getPriority();
-            if(task.getType() == type)
-            {
-                new_priority += priority;
-            }
-            Task new_task(new_priority,task.getType(), task.getDescription());
-            new_task.setId(task.getId());
-            return new_task;
-        });
+        updated_list = employees[emp].getTasks().apply(
+                [type, priority](const Task &task) -> Task {
+                    int new_priority = task.getPriority();
+                    if (task.getType() == type) {
+                        new_priority += priority;
+                    }
+                    Task new_task(new_priority, task.getType(),
+                                  task.getDescription());
+                    new_task.setId(task.getId());
+                    return new_task;
+                });
 
         /* for (SortedList<Task>::ConstIterator it = list.begin();
              it != list.end(); ++it) {
