@@ -152,15 +152,22 @@ void TaskManager::completeTask(const string &personName) {
 
 }
 
+
 void TaskManager::bumpPriorityByType(TaskType type, int priority) {
     for (int emp = 0; emp < employeesAmount; ++emp) {
-        SortedList<Task> list;
-        try {
-            list = employees[emp].getTasks();
-        } catch (const bad_alloc &a) {
-            throw;
-        }
-        for (SortedList<Task>::ConstIterator it = list.begin();
+        SortedList<Task> updated_list;
+        updated_list = employees[emp].getTasks().apply([type, priority](const Task & task) -> Task{
+            int new_priority = task.getPriority();
+            if(task.getType() == type)
+            {
+                new_priority += priority;
+            }
+            Task new_task(new_priority,task.getType(), task.getDescription());
+            new_task.setId(task.getId());
+            return new_task;
+        });
+
+        /* for (SortedList<Task>::ConstIterator it = list.begin();
              it != list.end(); ++it) {
             if ((*it).getType() == type) {
                 Task newTask((*it).getPriority() + priority, type,
@@ -173,8 +180,8 @@ void TaskManager::bumpPriorityByType(TaskType type, int priority) {
                     throw;
                 }
             }
-        }
-        employees[emp].setTasks(list);
+        } */
+        employees[emp].setTasks(updated_list);
     }
 
 }

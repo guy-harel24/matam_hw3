@@ -79,7 +79,8 @@ namespace mtm {
         template<class Condition>
         SortedList filter(Condition condition) const;
 
-        SortedList apply(T (*operation)(T)) const;
+        template<class Operation>
+        SortedList apply(const Operation &operation) const;
 
     };
 
@@ -285,7 +286,8 @@ namespace mtm {
 
 
     template<typename T>
-    SortedList<T> SortedList<T>::apply(T (*operation)(T)) const {
+    template<class Operation>
+    SortedList<T> SortedList<T>::apply(const Operation &operation) const {
         SortedList<T> results;
         try {
             for (ConstIterator it = begin(); it != end(); ++it) {
