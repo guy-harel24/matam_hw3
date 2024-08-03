@@ -11,8 +11,6 @@ public:
     T data;
     Node<T> *next;
 
-    Node<T>() : data(), next(nullptr) {};
-
     explicit Node(const T &t) : data(t), next(nullptr) {};
 
     Node<T>(const T &t, Node<T> *other) : data(t) {

@@ -185,12 +185,11 @@ namespace mtm {
     void SortedList<T>::insert(const T &new_element) {
         Node<T> *new_node;
         try {
-            new_node = new Node<T>;
+            new_node = new Node<T>(new_element);
         } catch (const std::bad_alloc &) {
             throw;
         }
 
-        new_node->data = new_element;
         if (head == nullptr || new_element > head->data) {
             new_node->next = head;
             head = new_node;
