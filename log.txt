@@ -1,3 +1,65 @@
+* commit 7ba4c8dbb2aef7979edc9e0162a07a8a8575b7f2
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Sat Aug 3 16:15:20 2024 +0300
+| 
+|     Removing Node.h before rebase with main
+| 
+|  Node.h       | 21 ---------------------
+|  SortedList.h | 11 ++++++++++-
+|  2 files changed, 10 insertions(+), 22 deletions(-)
+| 
+* commit 0ab2095f85e5be5d2bbd823f9d3f252b5f6bf44d
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Sat Aug 3 16:07:16 2024 +0300
+| 
+|     Implementing the class Node in SortedList.h to allow compilation in Gradescope
+| 
+|  SortedList.h | 18 +++++++++++++++++-
+|  1 file changed, 17 insertions(+), 1 deletion(-)
+| 
+* commit a74da1d9cb7891440b2cde7b0765a315de7b28f8
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Sat Aug 3 16:05:10 2024 +0300
+| 
+|     Removing Node.h default constructor
+| 
+|  Node.h       | 2 --
+|  SortedList.h | 3 +--
+|  2 files changed, 1 insertion(+), 4 deletions(-)
+| 
+* commit 87cf3e8e649a997a8a9563e4a336bbf7601501ba
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Sat Aug 3 15:55:08 2024 +0300
+| 
+|     Recreating Node.h in order to fix compilation error on Gradescope
+| 
+|  Node.h       | 23 +++++++++++++++++++++++
+|  SortedList.h | 28 +---------------------------
+|  2 files changed, 24 insertions(+), 27 deletions(-)
+| 
+* commit 994f700745b80ad9a86623caa418fb0f90e9614c
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Thu Aug 1 23:08:38 2024 +0300
+| 
+|     Adding dry.pdf
+| 
+|  TaskManager | Bin 0 -> 82832 bytes
+|  dry.pdf     | Bin 0 -> 69808 bytes
+|  taskmngtest | Bin 0 -> 82832 bytes
+|  3 files changed, 0 insertions(+), 0 deletions(-)
+| 
+* commit 7399c1ae95fb7ef6bf9a884f0f66d56838202087
+| Author: Eden Avidan <eden.avidan2000@gmail.com>
+| Date:   Thu Aug 1 22:52:12 2024 +0300
+| 
+|     Fixing last bugs before submittion
+| 
+|  Node.h          |  22 -----
+|  SortedList.h    |  86 ++++++-------------
+|  TaskManager.cpp |  22 ++---
+|  log.txt         | 242 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+|  4 files changed, 280 insertions(+), 92 deletions(-)
+| 
 * commit 698cea4e88cfdcee5b4b039d18822d4d13bb60ad
 | Author: Guy Harel <guy.harel24@gmail.com>
 | Date:   Thu Aug 1 17:44:18 2024 +0300
