@@ -2,7 +2,23 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "Node.h"
+//#include "Node.h"
+
+template<typename T>
+class Node {
+public:
+    T data;
+    Node<T> *next;
+
+    explicit Node(const T &t) : data(t), next(nullptr) {};
+
+    Node<T>(const T &t, Node<T> *other) : data(t) {
+        next = other;
+    }
+
+    ~Node<T>() = default;
+};
+
 
 namespace mtm {
 
