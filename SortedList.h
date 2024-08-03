@@ -2,33 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
-
-/**
- * Dear examiner,
- * The class "Node" was originally in a different file (Node.h), but
- * unfortunelly, the compiler used by Gradescope couldn't locate the
- * file (even though it was was found by the site itself).
- * We know it should be seperated to different file, and we hope you'd
- * understand why we combined the two.
- * Long live and prosper, us.
-**/
-
-template<typename T>
-class Node {
-public:
-    T data;
-    Node<T> *next;
-
-    Node<T>() : data(), next(nullptr) {};
-
-    explicit Node(const T &t) : data(t), next(nullptr) {};
-
-    Node<T>(const T &t, Node<T> *other) : data(t) {
-        next = other;
-    }
-
-    ~Node<T>() = default;
-};
+#include "Node.h"
 
 namespace mtm {
 
